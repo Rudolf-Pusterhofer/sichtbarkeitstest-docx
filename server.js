@@ -16,13 +16,17 @@ app.get('/', (req, res) => {
 app.post('/generate-sichtbarkeit', async (req, res) => {
   try {
     const d = req.body;
-    const vorname    = d.vorname    || '';
-    const nachname   = d.nachname   || '';
-    const email      = d.email      || '';
+    const vorname    = d.vorname    || d.Vorname    || '';
+    const nachname   = d.nachname   || d.Nachname   || '';
+    const email      = d.email      || d['E-Mail']  || d.Email || '';
     const datum      = d.datum      || new Date().toLocaleDateString('de-AT');
-    const klasse     = d.klasse     || 'II';
-    const score      = parseInt(d.score) || 0;
-    const antworten  = d.antworten  || {};
+    const klasse     = d.klasse     || d.Klasse     || 'II';
+    const score      = parseInt(d.score || d.Punktzahl) || 0;
+    const antworten  = d.antworten  || {
+      F01: d.F01, F02: d.F02, F03: d.F03,
+      F04: d.F04, F05: d.F05, F06: d.F06,
+      F07: d.F07, F08: d.F08, F09: d.F09
+    };
 
     const DUNKEL='0D1B3E',GOLD='C8A951',GOLD_H='F5EDD6';
     const WEISS='FFFFFF',TEXT='2C2C2C',GRAU_T='666666';
@@ -157,7 +161,7 @@ app.post('/generate-sichtbarkeit', async (req, res) => {
     const gespraechBlock=()=>TBL([TR([C([
       SP(80),
       new Paragraph({alignment:AlignmentType.CENTER,spacing:{before:0,after:80},children:[new TextRun({text:'Was nach unserem Gespr\u00e4ch anders ist',font:'Arial',size:24,bold:true,color:DUNKEL})]}),
-      new Paragraph({spacing:{before:0,after:60},children:[new TextRun({text:'\u2192 Sie wissen genau, welche 2\u20133 Stellen in Ihrem Profil heute Anfragen verhindern',font:'Arial',size:20,color:TEXT})]}),
+      new Paragraph({spacing:{before:0,after:60},children:[new TextRun({text:'\u2192 Sie wissen genau, welche Stellen in Ihrem Profil heute Anfragen verhindern',font:'Arial',size:20,color:TEXT})]}),
       new Paragraph({spacing:{before:0,after:60},children:[new TextRun({text:'\u2192 Sie haben einen klaren Satz f\u00fcr Ihren Slogan \u2013 der Entscheider sofort anspricht',font:'Arial',size:20,color:TEXT})]}),
       new Paragraph({spacing:{before:0,after:60},children:[new TextRun({text:'\u2192 Sie wissen, ob LinkedIn f\u00fcr Sie der richtige Hebel ist \u2013 oder wo er wirklich liegt',font:'Arial',size:20,color:TEXT})]}),
       new Paragraph({spacing:{before:0,after:80},children:[new TextRun({text:'\u2192 Sie gehen mit einem konkreten n\u00e4chsten Schritt heraus \u2013 kein Konzept, keine Theorie',font:'Arial',size:20,color:TEXT})]}),
