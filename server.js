@@ -19,7 +19,8 @@ app.post('/generate-sichtbarkeit', async (req, res) => {
     const vorname    = d.vorname    || d.Vorname    || '';
     const nachname   = d.nachname   || d.Nachname   || '';
     const email      = d.email      || d['E-Mail']  || d.Email || '';
-    const datum      = d.datum      || new Date().toLocaleDateString('de-AT');
+    const rawDate = d.datum || '';
+    const datum = rawDate ? rawDate.replace('January','Jänner').replace('February','Februar').replace('March','März').replace('April','April').replace('May','Mai').replace('June','Juni').replace('July','Juli').replace('August','August').replace('September','September').replace('October','Oktober').replace('November','November').replace('December','Dezember') : new Date().toLocaleDateString('de-AT');
     const klasse     = d.klasse     || d.Klasse     || 'II';
     const score      = parseInt(d.score || d.Punktzahl) || 0;
     const antworten  = d.antworten  || {
@@ -108,7 +109,7 @@ app.post('/generate-sichtbarkeit', async (req, res) => {
       SP(120),
       new Paragraph({spacing:{before:0,after:60},children:[new TextRun({text:'SICHTBARKEITS- & RELEVANZTEST',font:'Arial',size:18,color:GOLD,bold:true,allCaps:true})]}),
       new Paragraph({spacing:{before:0,after:80},children:[new TextRun({text:`Pers\u00f6nliche Auswertung f\u00fcr ${vorname} ${nachname}`,font:'Arial',size:26,color:WEISS,bold:true})]}),
-      new Paragraph({spacing:{before:0,after:40},children:[new TextRun({text:`${datum} \u00b7 Klartext Mittelstand \u00b7 Rudolf Pusterhofer`,font:'Arial',size:18,color:'8AACCC'})]}),
+      new Paragraph({spacing:{before:0,after:40},children:[new TextRun({text:`${datum} \u00b7 Klartext Mittelstand \u00b7 Rudolf Pusterhofer`,font:'Arial',size:18,color:GOLD})]}),
       SP(120),
     ],{fill:DUNKEL,b:allB(DUNKEL),w:9026,ml:280,mr:280})])],[9026]);
 
